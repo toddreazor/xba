@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="hello">Set Proximity</string>
+	<string name="app_name">Bubble Alert</string>
+	<string name="tab_1">Locations</string>
+	<string name="tab_2">Contacts</string>
+	<string name="tab_3">About</string>
+	<string name="about_1">Bubble Alert allows triggering of events</string>
+	<string name="about_2">and monitoring based on location proximity.</string>
+
+	<string name="location_1">967 N Warren Street Pottstown, PA</string>
+	<string name="location_2">1300 N Charlotte St Pottstown, PA 19464</string>
+	<string name="location_3">233 Shoemaker Rd Pottstown, PA 19464</string>
+	<string name="location_4">351 W Schuylkill Rd Pottstown, PA 19465</string>
+</resources>

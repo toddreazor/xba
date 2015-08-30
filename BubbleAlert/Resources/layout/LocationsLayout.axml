@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <TableLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tableLayout1">
+        <TableRow
+            android:id="@+id/tableRow1">
+            <TextView
+                android:text="967 N Warren Street Pottstown, PA 19464"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_column="0"
+                android:id="@+id/textLocation1" />
+            <CheckBox
+                android:layout_column="4"
+                android:id="@+id/checkLocation1"
+                android:checked="true" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow2">
+            <TextView
+                android:text="1300 N Charlotte St Pottstown, PA 19464"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_column="0"
+                android:id="@+id/textLocation2" />
+            <CheckBox
+                android:layout_column="4"
+                android:id="@+id/checkLocation2"
+                android:checked="true" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow3">
+            <TextView
+                android:text="233 Shoemaker Rd  Pottstown, PA 19464"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_column="0"
+                android:id="@+id/textLocation3" />
+            <CheckBox
+                android:layout_column="4"
+                android:id="@+id/checkLocation3"
+                android:checked="true" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow4">
+            <TextView
+                android:text="351 W Schuylkill Rd Pottstown, PA 19465"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_column="0"
+                android:id="@+id/textLocation4" />
+            <CheckBox
+                android:layout_column="4"
+                android:id="@+id/checkLocation4"
+                android:checked="true" />
+        </TableRow>
+    </TableLayout>
+    <Button
+        android:background="@drawable/green_button"
+        android:text="Proxitize me, Cap'n!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonBegin"
+        style="@style/button_text" />
+</LinearLayout>

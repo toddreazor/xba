@@ -1,0 +1,136 @@
+using System;
+
+using Android.App;
+using Android.Content;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+using Android.OS;
+using Android.Locations;
+using Android.Util;
+using System.Collections.Generic;
+
+namespace BubbleAlert
+{
+	[Activity (Label = "BubbleAlert", MainLauncher = true, Icon = "@drawable/icon")]
+	public class MainActivity : Activity, ILocationListener
+	{
+		
+		//Proximity Alerts:
+		private static long MINIMUM_DISTANCE_CHANGE_FOR_UPDATE = 1; //Meters
+		private static long MINIMUM_TIME_BETWEEN_UPDATE = 1000; //Miliseconds
+		private static long POINT_RADIUS = 167; 
+		private static long PROX_ALERT_EXPIRATION = -1; //Never expire
+		private static String POINT_LATITUDE_KEY = "POINT_LATITUDE_KEY";
+		private static String POINT_LONGITUDE_KEY = "POINT_LONGITUDE_KEY";
+
+		private static String PROX_ALERT_INTENT = "BubbleAlert";
+
+		Location currentLocation;		//GPS coordinates
+		LocationManager locationManager;
+		String locationProvider;
+
+		double dLat;
+		double dLong;
+
+		TextView latText;				//Text field containing the latitude
+		TextView longText;				//Text field containing the longitude
+
+		void initLocationManager() {
+			locationManager = (LocationManager)GetSystemService (LocationService);
+			Criteria criteriaForLocationService = new Criteria {
+				Accuracy = Accuracy.Fine
+			};
+
+			locationProvider = locationManager.GetBestProvider(criteriaForLocationService,true);
+
+			locationManager.GetBestProvider(criteriaForLocationService,true);
+		}
+
+		public void OnLocationChanged(Location location)
+		{
+			
+			currentLocation = location;
+			if (currentLocation == null) {
+				latText.Text = "Unknown latitude.";
+				longText.Text = "Unknown longitude.";
+			} else {
+
+				latText.Text = currentLocation.Latitude.ToString ();
+				longText.Text = currentLocation.Longitude.ToString ();
+			}
+		}
+
+		protected override void OnResume() {
+			base.OnResume ();
+			locationManager.RequestLocationUpdates(locationProvider,0,0,this);
+		}
+
+		public void OnProviderDisabled(String provider) {
+			latText.Text = "No privider.";
+			longText.Text = "No provider.";
+		}
+
+		public void OnProviderEnabled(String provider) {
+
+		}
+
+		private void addProximityAlert(double latitude, double longitude) {
+			//This will get the values from the labels. I know, not a good idea.
+			//This is just a test.
+
+			Intent intent = new Intent (PROX_ALERT_INTENT);
+			PendingIntent proximityIntent = PendingIntent.GetBroadcast (this, 0, intent, 0);
+			locationManager.AddProximityAlert (latitude, longitude, POINT_RADIUS, PROX_ALERT_EXPIRATION, proximityIntent);
+			IntentFilter filter = new IntentFilter (PROX_ALERT_INTENT);
+			RegisterReceiver (new ProximityIntentReceiver (this), filter);
+		}
+
+		public void OnStatusChanged(string Provider, Availability status, Bundle extras)
+		{
+			
+		}
+
+		protected override void OnCreate (Bundle bundle)
+		{
+			base.OnCreate (bundle);
+
+			// Set our view from the "main" layout resource
+			SetContentView (Resource.Layout.Main);
+
+			// Get our button from the layout resource,
+			// and attach an event to it
+			Button button = FindViewById<Button> (Resource.Id.myButton);
+			latText = FindViewById<TextView> (Resource.Id.textLat);
+			longText = FindViewById<TextView> (Resource.Id.textLong);
+
+			initLocationManager ();
+
+			button.Click += delegate {
+				//Get the last known location and store it:
+						Location location = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
+						if (location != null) {
+					
+							addProximityAlert(location.Latitude,location.Longitude);
+						}
+			};
+
+			//"Add Prox Bubble" activity button:
+			Button addProxBubbleButton = FindViewById<Button>(Resource.Id.buttonAdd);
+			addProxBubbleButton.Click += delegate {
+				
+				StartActivity(typeof(NewLocation));
+
+			};
+
+		}
+
+		private void notifyUser() {
+			//Vibrate the device:
+			Vibrator vibrator = (Vibrator)GetSystemService (Context.VibratorService);
+			vibrator.Vibrate (10000);
+		}
+	}
+}
+
+
